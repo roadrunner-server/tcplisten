@@ -13,4 +13,4 @@ performance-related options:
 
 [Documentation](https://godoc.org/github.com/valyala/tcplisten).
 
-The package is derived from [tcplisten](https://github.com/valaya/tcplisten).
+The package is derived from [tcplisten](https://github.com/valyala/tcplisten).
