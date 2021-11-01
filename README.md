@@ -11,6 +11,6 @@ performance-related options:
  * TCP_FASTOPEN. See https://lwn.net/Articles/508865/ for details.
 
 
-[Documentation](https://godoc.org/github.com/valyala/tcplisten).
+[Documentation](https://godoc.org/github.com/spiral/tcplisten).
 
 The package is derived from [tcplisten](https://github.com/valyala/tcplisten).
