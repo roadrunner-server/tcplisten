@@ -61,7 +61,7 @@ func (cfg *Config) NewListener(network, addr string) (net.Listener, error) {
 	}
 
 	if err = cfg.fdSetup(fd, sa, addr); err != nil {
-		syscall.Close(fd)
+		_ = syscall.Close(fd)
 		return nil, err
 	}
 
@@ -69,16 +69,44 @@ func (cfg *Config) NewListener(network, addr string) (net.Listener, error) {
 	file := os.NewFile(uintptr(fd), name)
 	ln, err := net.FileListener(file)
 	if err != nil {
-		file.Close()
+		_ = file.Close()
 		return nil, err
 	}
 
 	if err = file.Close(); err != nil {
-		ln.Close()
+		_ = ln.Close()
 		return nil, err
 	}
 
 	return ln, nil
+}
+
+// NewListenerWithFD behaves the same as NewListener, but returns the listener's file descriptor
+func (cfg *Config) NewListenerWithFD(network, addr string) (int, net.Listener, error) {
+	sa, soType, err := getSockaddr(network, addr)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	fd, err := newSocketCloexec(soType, syscall.SOCK_STREAM, syscall.IPPROTO_TCP)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	if err = cfg.fdSetup(fd, sa, addr); err != nil {
+		_ = syscall.Close(fd)
+		return 0, nil, err
+	}
+
+	name := fmt.Sprintf("reuseport.%d.%s.%s", os.Getpid(), network, addr)
+	file := os.NewFile(uintptr(fd), name)
+	ln, err := net.FileListener(file)
+	if err != nil {
+		_ = file.Close()
+		return 0, nil, err
+	}
+
+	return int(file.Fd()), ln, nil
 }
 
 func (cfg *Config) fdSetup(fd int, sa syscall.Sockaddr, addr string) error {
