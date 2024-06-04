@@ -1,25 +1,13 @@
 # Documentation: <https://github.com/golangci/golangci-lint#config-file>
 
 run:
-  go: '1.17'
   timeout: 1m
-  skip-dirs:
-    - .github
-    - .git
-    - tests/mocks
   modules-download-mode: readonly
   allow-parallel-runners: true
 
-output:
-  format: colored-line-number # colored-line-number|line-number|json|tab|checkstyle|code-climate
-
 linters-settings:
-  govet:
-    check-shadowing: true
   revive:
     confidence: 0.8
-    errorCode: 0
-    warningCode: 0
   gocyclo:
     min-complexity: 15
   godot:
@@ -39,7 +27,6 @@ linters-settings:
     range-loops: true
     for-loops: true
   nolintlint:
-    allow-leading-space: false
     require-specific: true
 
 linters: # All available linters list: <https://golangci-lint.run/usage/linters/>
@@ -47,7 +34,6 @@ linters: # All available linters list: <https://golangci-lint.run/usage/linters/
   enable:
     - asciicheck # Simple linter to check that your code does not contain non-ASCII identifiers
     - bodyclose # Checks whether HTTP response body is closed successfully
-    - deadcode # Finds unused code
     - dogsled # Checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
     - errcheck # Errcheck is a program for checking for unchecked errors in go programs. These unchecked errors can be critical bugs in some cases
     - exhaustive # check exhaustiveness of enum switch statements
@@ -71,15 +57,17 @@ linters: # All available linters list: <https://golangci-lint.run/usage/linters/
     - prealloc # Finds slice declarations that could potentially be preallocated
     - rowserrcheck # Checks whether Err of rows is checked successfully
     - staticcheck # Staticcheck is a go vet on steroids, applying a ton of static analysis checks
-    - structcheck # Finds unused struct fields
     - stylecheck # Stylecheck is a replacement for golint
     - tparallel # detects inappropriate usage of t.Parallel() method in your Go test codes
     - unconvert # Remove unnecessary type conversions
     - unused # Checks Go code for unused constants, variables, functions and types
-    - varcheck # Finds unused global variables and constants
     - whitespace # Tool for detection of leading and trailing whitespace
 
 issues:
+  exclude-dirs:
+    - .github
+    - .git
+    - tests/mocks
   exclude-rules:
     - path: _test\.go
       linters:
