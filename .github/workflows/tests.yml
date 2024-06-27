@@ -35,13 +35,13 @@ jobs:
         run: |
           cd tests
           mkdir ./coverage-ci
-          go test -v -race -cover -coverpkg=./... -coverprofile=./coverage-ci/tcplisten.out -covermode=atomic ./...
+          go test -v -race -cover -coverpkg=./... -coverprofile=./coverage-ci/tcplisten-${{ matrix.runs-on }}.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         with:
-          name: coverage
-          path: ./tests/coverage-ci/tcplisten.out
+          name: tcplisten-${{ matrix.runs-on }}.out
+          path: ./tests/coverage-ci/tcplisten-${{ matrix.runs-on }}.out
 
   codecov:
     name: Upload codecov
