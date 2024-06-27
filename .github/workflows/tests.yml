@@ -1,4 +1,4 @@
-name: Linux
+name: tests
 
 on: [push, pull_request]
 
@@ -34,7 +34,6 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           cd tests
-          rm -rf coverage-ci
           mkdir ./coverage-ci
           go test -v -race -cover -coverpkg=./... -coverprofile=./coverage-ci/tcplisten.out -covermode=atomic ./...
 
