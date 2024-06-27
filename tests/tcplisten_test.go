@@ -7,23 +7,24 @@ import (
 	"testing"
 	"time"
 
+	"github.com/roadrunner-server/tcplisten"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestConfigDeferAccept(t *testing.T) {
-	testConfig(t, Config{DeferAccept: true})
+	testConfig(t, tcplisten.Config{DeferAccept: true})
 }
 
 func TestConfigReusePort(t *testing.T) {
-	testConfig(t, Config{ReusePort: true})
+	testConfig(t, tcplisten.Config{ReusePort: true})
 }
 
 func TestConfigFastOpen(t *testing.T) {
-	testConfig(t, Config{FastOpen: true})
+	testConfig(t, tcplisten.Config{FastOpen: true})
 }
 
 func TestConfigAll(t *testing.T) {
-	cfg := Config{
+	cfg := tcplisten.Config{
 		ReusePort:   true,
 		DeferAccept: true,
 		FastOpen:    true,
@@ -32,18 +33,18 @@ func TestConfigAll(t *testing.T) {
 }
 
 func TestConfigBacklog(t *testing.T) {
-	cfg := Config{
+	cfg := tcplisten.Config{
 		Backlog: 32,
 	}
 	testConfig(t, cfg)
 }
 
-func testConfig(t *testing.T, cfg Config) {
+func testConfig(t *testing.T, cfg tcplisten.Config) {
 	testConfigV(t, cfg, "tcp4", "localhost:10081")
 	testConfigV(t, cfg, "tcp6", "localhost:10081")
 }
 
-func testConfigV(t *testing.T, cfg Config, network, addr string) {
+func testConfigV(t *testing.T, cfg tcplisten.Config, network, addr string) {
 	const requestsCount = 1000
 	var serversCount = 1
 	if cfg.ReusePort {
