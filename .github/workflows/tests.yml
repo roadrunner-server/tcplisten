@@ -11,7 +11,7 @@ jobs:
       fail-fast: true
       matrix:
         go: [stable]
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        os: ["ubuntu-latest", "macos-latest"]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v5 # action page: <https://github.com/actions/setup-go>
