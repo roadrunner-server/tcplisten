@@ -34,14 +34,14 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           cd tests
-          mkdir ./coverage-ci
-          go test -v -race -cover -coverpkg=./... -coverprofile=./coverage-ci/tcplisten-${{ matrix.os }}.out -covermode=atomic ./...
+          mkdir ./coverage
+          go test -v -race -cover -coverpkg=./... -coverprofile=./coverage/tcplisten-${{ matrix.os }}.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         with:
           name: tcplisten-${{ matrix.os }}.out
-          path: ./tests/coverage-ci/tcplisten-${{ matrix.os }}.out
+          path: ./tests/coverage/tcplisten-${{ matrix.os }}.out
 
   codecov:
     name: Upload codecov
