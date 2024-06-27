@@ -40,7 +40,7 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: tcplisten-${{ matrix.os }}
           path: ./tests/coverage/tcplisten-${{ matrix.os }}.out
 
   codecov:
@@ -54,7 +54,7 @@ jobs:
       - name: Download code coverage results
         uses: actions/download-artifact@v4
       - run: |
-          cd coverage
+          cd tcplisten-${{ matrix.os }}
           echo 'mode: atomic' > summary.txt
           tail -q -n +2 *.out >> summary.txt
           sed -i '2,${/roadrunner/!d}' summary.txt
