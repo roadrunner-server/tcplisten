@@ -63,5 +63,5 @@ jobs:
         uses: codecov/codecov-action@v5 # Docs: <https://github.com/codecov/codecov-action>
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/summary.txt
+          files: ./coverage/summary.txt
           fail_ci_if_error: false
