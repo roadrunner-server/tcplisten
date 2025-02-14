@@ -105,7 +105,7 @@ func (cfg *Config) NewListenerWithFD(network, addr string) (int, net.Listener, e
 		return 0, nil, err
 	}
 
-	return int(file.Fd()), ln, nil //nolint:gosec
+	return int(file.Fd()), ln, nil
 }
 
 func (cfg *Config) fdSetup(fd int, sa syscall.Sockaddr, addr string) error {
