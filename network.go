@@ -3,6 +3,7 @@
 package tcplisten
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"os"
@@ -41,17 +42,19 @@ func CreateListener(address string) (net.Listener, error) {
 		switch dsn[0] {
 		case "unix":
 			// check of file exist. If exist, unlink
-			exists, err := fileExists(dsn[1])
-			if err != nil {
-				return nil, fmt.Errorf("unable to stat socket file: %w", err)
-			}
+			socketInfo, err := os.Stat(dsn[1])
 
-			if exists {
+			if err == nil && !socketInfo.IsDir() {
 				err := syscall.Unlink(dsn[1])
 				if err != nil {
 					return nil, fmt.Errorf("error during the unlink syscall: error %w", err)
 				}
 			}
+
+			if err != nil && !errors.Is(err, os.ErrNotExist) {
+				return nil, fmt.Errorf("unable to stat socket file: %w", err)
+			}
+
 			return net.Listen(dsn[0], dsn[1])
 		case "tcp":
 			return createTCPListener(dsn[1])
@@ -99,16 +102,4 @@ func netw(addr net.IP) string {
 		return IPV6
 	}
 	return IPV4
-}
-
-// fileExists checks if a file exists and is not a directory before we
-// try using it to prevent further errors.
-func fileExists(filename string) (bool, error) {
-	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false, nil
-	} else if err != nil {
-		return true, err
-	}
-	return !info.IsDir(), nil
 }
