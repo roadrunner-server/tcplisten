@@ -42,17 +42,9 @@ func CreateListener(address string) (net.Listener, error) {
 		switch dsn[0] {
 		case "unix":
 			// check of file exist. If exist, unlink
-			socketInfo, err := os.Stat(dsn[1])
-
-			if err == nil && !socketInfo.IsDir() {
-				err := syscall.Unlink(dsn[1])
-				if err != nil {
-					return nil, fmt.Errorf("error during the unlink syscall: error %w", err)
-				}
-			}
-
-			if err != nil && !errors.Is(err, os.ErrNotExist) {
-				return nil, fmt.Errorf("unable to stat socket file: %w", err)
+			err := unlinkExisting(dsn[1])
+			if err != nil {
+				return nil, err
 			}
 
 			return net.Listen(dsn[0], dsn[1])
@@ -102,4 +94,21 @@ func netw(addr net.IP) string {
 		return IPV6
 	}
 	return IPV4
+}
+
+// checks if the socket file exists and unlinks if it isn't a directory
+// this prevents errors from trying to use an already existing socket
+func unlinkExisting(filename string) error {
+	info, err := os.Stat(filename)
+
+	// Skip unlinking if it doesn't exist or is a directory
+	if errors.Is(err, os.ErrNotExist) || (info != nil && info.IsDir()) {
+		return nil
+	}
+
+	if err != nil {
+		return err
+	}
+
+	return syscall.Unlink(filename)
 }
