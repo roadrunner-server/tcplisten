@@ -100,8 +100,17 @@ func netw(addr net.IP) string {
 // try using it to prevent further errors.
 func fileExists(filename string) bool {
 	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
+	if err != nil {
 		return false
 	}
+
+	// according to the code in the os.Stat we can have info==nil
+	// if the file does not exist (patherror)
+	// os.IsNotExists should be sufficient here (since it checks for the patherror), but in some cases
+	// it may return other error
+	if info == nil {
+		return false
+	}
+
 	return !info.IsDir()
 }
