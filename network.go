@@ -3,6 +3,7 @@
 package tcplisten
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os"
@@ -47,7 +48,8 @@ func CreateListener(address string) (net.Listener, error) {
 					return nil, fmt.Errorf("error during the unlink syscall: error %w", err)
 				}
 			}
-			return net.Listen(dsn[0], dsn[1])
+			var lc net.ListenConfig
+			return lc.Listen(context.Background(), dsn[0], dsn[1])
 		case "tcp":
 			return createTCPListener(dsn[1])
 			// not an tcp or unix
