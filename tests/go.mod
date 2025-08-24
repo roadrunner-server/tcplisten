@@ -6,7 +6,7 @@ toolchain go1.25.0
 
 require (
 	github.com/roadrunner-server/tcplisten v1.5.2
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 )
 
 replace github.com/roadrunner-server/tcplisten => ../
