@@ -38,7 +38,7 @@ jobs:
           go test -v -race -cover -coverpkg=./... -coverprofile=./coverage/tcplisten-${{ matrix.os }}.out -covermode=atomic ./...
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: tcplisten-${{ matrix.os }}
           path: ./tests/coverage/tcplisten-${{ matrix.os }}.out
