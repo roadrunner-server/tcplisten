@@ -1,5 +1,5 @@
 module github.com/roadrunner-server/tcplisten
 
-go 1.25
+go 1.26
 
 toolchain go1.26.0
