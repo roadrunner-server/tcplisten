@@ -2,7 +2,7 @@ module github.com/roadrunner-server/tcplisten/tests
 
 go 1.26
 
-toolchain go1.26.0
+toolchain go1.26.3
 
 require (
 	github.com/roadrunner-server/tcplisten v1.5.2
