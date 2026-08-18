@@ -6,13 +6,9 @@ toolchain go1.26.6
 
 require (
 	github.com/roadrunner-server/tcplisten v1.5.2
-	github.com/stretchr/testify v1.11.1
+	github.com/stretchr/testify v1.12.0
 )
 
 replace github.com/roadrunner-server/tcplisten => ../
 
-require (
-	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
+require gopkg.in/yaml.v3 v3.0.1 // indirect
