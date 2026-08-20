@@ -11,7 +11,4 @@ require (
 
 replace github.com/roadrunner-server/tcplisten => ../
 
-require (
-	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
+require go.yaml.in/yaml/v3 v3.0.5 // indirect
