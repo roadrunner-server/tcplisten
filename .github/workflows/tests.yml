@@ -32,6 +32,7 @@ jobs:
         run: go mod download
 
       - name: Run golang tests with coverage
+        shell: bash
         run: |
           mkdir ./tests/coverage
           go test -v -race -cover -coverpkg=github.com/roadrunner-server/tcplisten/... -coverprofile=./tests/coverage/tcplisten-${{ matrix.os }}.out -covermode=atomic ./... ./tests/...
