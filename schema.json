@@ -1,0 +1,35 @@
+{
+  "$id": "https://raw.githubusercontent.com/roadrunner-server/tcplisten/refs/heads/master/schema.json",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "unix-socket-options",
+  "description": "Optional attributes for a filesystem UNIX socket. TCP, abstract sockets, and Windows do not support these options.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "mode": {
+      "description": "An octal permission string from 0000 through 0777. Omitted or empty values keep the operating system default.",
+      "type": "string",
+      "oneOf": [
+        { "const": "" },
+        {
+          "pattern": "^0[0-7]{3}$",
+          "minLength": 4,
+          "maxLength": 4
+        }
+      ],
+      "examples": ["0600", "0660"]
+    },
+    "uid": {
+      "description": "The numeric socket owner ID. Omit this value to keep the operating system default.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967294
+    },
+    "gid": {
+      "description": "The numeric socket group ID. Omit this value to keep the operating system default.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967294
+    }
+  }
+}
